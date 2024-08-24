@@ -1,0 +1,29 @@
+{
+  "name": "@serum-enterprises/result",
+  "version": "1.0.0",
+  "description": "A rust-like result type",
+  "main": "./build/index.js",
+  "types": "./types/index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Serum-Enterprises/Result.git"
+  },
+  "keywords": [
+    "result",
+    "error",
+    "handling"
+  ],
+  "author": "Philipp Steckenbauer",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Serum-Enterprises/Result/issues"
+  },
+  "homepage": "https://github.com/Serum-Enterprises/Result#readme",
+  "dependencies": {
+    "@types/node": "^22.5.0",
+    "@serum-enterprises/panic": "^1.0.0"
+  }
+}
