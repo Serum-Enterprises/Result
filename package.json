@@ -1,6 +1,6 @@
 {
   "name": "@serum-enterprises/result",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A rust-like result type",
   "main": "./build/index.js",
   "types": "./types/index.d.ts",

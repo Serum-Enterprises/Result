@@ -18,48 +18,48 @@ class Result {
     /**
      * Check if this Result is of the Ok variant
      */
-    is_ok() {
+    isOk() {
         return (this instanceof Ok);
     }
     /**
      * Check if this Result is of the Err variant
      */
-    is_err() {
+    isErr() {
         return (this instanceof Err);
     }
     /**
-     * Check if this Result is of the Ok variant and the value passes the predicate
+     * Check if this Result is of the Ok variant and predicate returns true
      */
-    is_ok_and(predicate) {
-        return (this instanceof Ok) && predicate(this.expect_ok());
+    isOkAnd(predicate) {
+        return (this instanceof Ok) && predicate(this.expectOk());
     }
     /**
-     * Check if this Result is of the Err variant and the error passes the predicate
+     * Check if this Result is of the Err variant and predicate returns true
      */
-    is_err_and(predicate) {
-        return (this instanceof Err) && predicate(this.expect_err());
+    isErrAnd(predicate) {
+        return (this instanceof Err) && predicate(this.expectErr());
     }
     /**
      * Map this Result<T, E> to Result<U, E> by applying the function to the value if this Result is of the Ok variant
      */
-    map_ok(fn) {
-        return (this instanceof Ok) ? Result.Ok(fn(this.expect_ok())) : Result.Err(this.expect_err());
+    mapOk(fn) {
+        return (this instanceof Ok) ? Result.Ok(fn(this.expectOk())) : Result.Err(this.expectErr());
     }
     /**
      * Map this Result<T, E> to Result<T, F> by applying the function to the error if this Result is of the Err variant
      */
     mapErr(fn) {
-        return (this instanceof Ok) ? Result.Ok(this.expect_ok()) : Result.Err(fn(this.expect_err()));
+        return (this instanceof Ok) ? Result.Ok(this.expectOk()) : Result.Err(fn(this.expectErr()));
     }
     /**
      * Pattern match on this Result and return the result of the appropriate function
      */
     match(on_ok, on_err) {
         if (this instanceof Ok) {
-            return on_ok(this.expect_ok());
+            return on_ok(this.expectOk());
         }
         else {
-            return on_err(this.expect_err());
+            return on_err(this.expectErr());
         }
     }
 }
@@ -70,15 +70,15 @@ class Ok extends Result {
         this._value = value;
     }
     /**
-     * Unwrap the value if it is of the Ok variant, otherwise this method will panic
+     * Unwrap the value if it is of the Ok variant, otherwise panic with the given error
      */
-    expect_ok() {
+    expectOk() {
         return this._value;
     }
     /**
-     * Unwrap the error if it is of the Err variant, otherwise this method will panic
+     * Unwrap the error if it is of the Err variant, otherwise panic with the given error
      */
-    expect_err(error) {
+    expectErr(error) {
         (0, panic_1.panic)(error);
     }
 }
@@ -89,15 +89,15 @@ class Err extends Result {
         this._error = error;
     }
     /**
-     * Unwrap the value if it is of the Ok variant, otherwise this method will panic
+     * Unwrap the value if it is of the Ok variant, otherwise panic with the given error
      */
-    expect_ok(error) {
+    expectOk(error) {
         (0, panic_1.panic)(error);
     }
     /**
-     * Unwrap the error if it is of the Err variant, otherwise this method will panic
+     * Unwrap the error if it is of the Err variant, otherwise panic with the given error
      */
-    expect_err() {
+    expectErr() {
         return this._error;
     }
 }

@@ -10,31 +10,31 @@ export declare abstract class Result<T, E> {
     /**
      * Check if this Result is of the Ok variant
      */
-    is_ok(): this is Ok<T>;
+    isOk(): this is Ok<T>;
     /**
      * Check if this Result is of the Err variant
      */
-    is_err(): this is Err<E>;
+    isErr(): this is Err<E>;
     /**
-     * Check if this Result is of the Ok variant and the value passes the predicate
+     * Check if this Result is of the Ok variant and predicate returns true
      */
-    is_ok_and(predicate: (value: T) => boolean): this is Ok<T>;
+    isOkAnd(predicate: (value: T) => boolean): this is Ok<T>;
     /**
-     * Check if this Result is of the Err variant and the error passes the predicate
+     * Check if this Result is of the Err variant and predicate returns true
      */
-    is_err_and(predicate: (error: E) => boolean): this is Err<E>;
+    isErrAnd(predicate: (error: E) => boolean): this is Err<E>;
     /**
-     * Unwrap the value if it is of the Ok variant, otherwise this method will panic
+     * Unwrap the value if it is of the Ok variant, otherwise panic with the given error
      */
-    abstract expect_ok(error: Error): T | never;
+    abstract expectOk(error: Error): T | never;
     /**
-     * Unwrap the error if it is of the Err variant, otherwise this method will panic
+     * Unwrap the error if it is of the Err variant, otherwise panic with the given error
      */
-    abstract expect_err(error: Error): E | never;
+    abstract expectErr(error: Error): E | never;
     /**
      * Map this Result<T, E> to Result<U, E> by applying the function to the value if this Result is of the Ok variant
      */
-    map_ok<U>(fn: (value: T) => U): Result<U, E>;
+    mapOk<U>(fn: (value: T) => U): Result<U, E>;
     /**
      * Map this Result<T, E> to Result<T, F> by applying the function to the error if this Result is of the Err variant
      */
@@ -48,23 +48,23 @@ export declare class Ok<T> extends Result<T, never> {
     private _value;
     constructor(value: T);
     /**
-     * Unwrap the value if it is of the Ok variant, otherwise this method will panic
+     * Unwrap the value if it is of the Ok variant, otherwise panic with the given error
      */
-    expect_ok(): T;
+    expectOk(): T;
     /**
-     * Unwrap the error if it is of the Err variant, otherwise this method will panic
+     * Unwrap the error if it is of the Err variant, otherwise panic with the given error
      */
-    expect_err(error: Error): never;
+    expectErr(error: Error): never;
 }
 export declare class Err<E> extends Result<never, E> {
     private _error;
     constructor(error: E);
     /**
-     * Unwrap the value if it is of the Ok variant, otherwise this method will panic
+     * Unwrap the value if it is of the Ok variant, otherwise panic with the given error
      */
-    expect_ok(error: Error): never;
+    expectOk(error: Error): never;
     /**
-     * Unwrap the error if it is of the Err variant, otherwise this method will panic
+     * Unwrap the error if it is of the Err variant, otherwise panic with the given error
      */
-    expect_err(): E;
+    expectErr(): E;
 }

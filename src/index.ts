@@ -18,53 +18,53 @@ export abstract class Result<T, E> {
 	/**
 	 * Check if this Result is of the Ok variant
 	 */
-	is_ok(): this is Ok<T> {
+	isOk(): this is Ok<T> {
 		return (this instanceof Ok);
 	}
 
 	/**
 	 * Check if this Result is of the Err variant
 	 */
-	is_err(): this is Err<E> {
+	isErr(): this is Err<E> {
 		return (this instanceof Err);
 	}
 
 	/**
-	 * Check if this Result is of the Ok variant and the value passes the predicate
+	 * Check if this Result is of the Ok variant and predicate returns true
 	 */
-	is_ok_and(predicate: (value: T) => boolean): this is Ok<T> {
-		return (this instanceof Ok) && predicate(this.expect_ok());
+	isOkAnd(predicate: (value: T) => boolean): this is Ok<T> {
+		return (this instanceof Ok) && predicate(this.expectOk());
 	}
 
 	/**
-	 * Check if this Result is of the Err variant and the error passes the predicate
+	 * Check if this Result is of the Err variant and predicate returns true
 	 */
-	is_err_and(predicate: (error: E) => boolean): this is Err<E> {
-		return (this instanceof Err) && predicate(this.expect_err());
+	isErrAnd(predicate: (error: E) => boolean): this is Err<E> {
+		return (this instanceof Err) && predicate(this.expectErr());
 	}
 
 	/**
-	 * Unwrap the value if it is of the Ok variant, otherwise this method will panic
+	 * Unwrap the value if it is of the Ok variant, otherwise panic with the given error
 	 */
-	abstract expect_ok(error: Error): T | never;
+	abstract expectOk(error: Error): T | never;
 
 	/**
-	 * Unwrap the error if it is of the Err variant, otherwise this method will panic
+	 * Unwrap the error if it is of the Err variant, otherwise panic with the given error
 	 */
-	abstract expect_err(error: Error): E | never;
+	abstract expectErr(error: Error): E | never;
 
 	/**
 	 * Map this Result<T, E> to Result<U, E> by applying the function to the value if this Result is of the Ok variant
 	 */
-	map_ok<U>(fn: (value: T) => U): Result<U, E> {
-		return (this instanceof Ok) ? Result.Ok(fn(this.expect_ok())) : Result.Err((this as unknown as Err<E>).expect_err());
+	mapOk<U>(fn: (value: T) => U): Result<U, E> {
+		return (this instanceof Ok) ? Result.Ok(fn(this.expectOk())) : Result.Err((this as unknown as Err<E>).expectErr());
 	}
 
 	/**
 	 * Map this Result<T, E> to Result<T, F> by applying the function to the error if this Result is of the Err variant
 	 */
 	mapErr<F>(fn: (error: E) => F): Result<T, F> {
-		return (this instanceof Ok) ? Result.Ok(this.expect_ok()) : Result.Err(fn((this as unknown as Err<E>).expect_err()));
+		return (this instanceof Ok) ? Result.Ok(this.expectOk()) : Result.Err(fn((this as unknown as Err<E>).expectErr()));
 	}
 
 	/**
@@ -72,10 +72,10 @@ export abstract class Result<T, E> {
 	 */
 	match<R>(on_ok: (value: T) => R, on_err: (error: E) => R): R {
 		if (this instanceof Ok) {
-			return on_ok(this.expect_ok());
+			return on_ok(this.expectOk());
 		}
 		else {
-			return on_err((this as unknown as Err<E>).expect_err());
+			return on_err((this as unknown as Err<E>).expectErr());
 		}
 	}
 }
@@ -89,16 +89,16 @@ export class Ok<T> extends Result<T, never> {
 	}
 
 	/**
-	 * Unwrap the value if it is of the Ok variant, otherwise this method will panic
+	 * Unwrap the value if it is of the Ok variant, otherwise panic with the given error
 	 */
-	expect_ok(): T {
+	expectOk(): T {
 		return this._value;
 	}
 
 	/**
-	 * Unwrap the error if it is of the Err variant, otherwise this method will panic
+	 * Unwrap the error if it is of the Err variant, otherwise panic with the given error
 	 */
-	expect_err(error: Error): never {
+	expectErr(error: Error): never {
 		panic(error);
 	}
 }
@@ -112,16 +112,16 @@ export class Err<E> extends Result<never, E> {
 	}
 
 	/**
-	 * Unwrap the value if it is of the Ok variant, otherwise this method will panic
+	 * Unwrap the value if it is of the Ok variant, otherwise panic with the given error
 	 */
-	expect_ok(error: Error): never {
+	expectOk(error: Error): never {
 		panic(error);
 	}
 
 	/**
-	 * Unwrap the error if it is of the Err variant, otherwise this method will panic
+	 * Unwrap the error if it is of the Err variant, otherwise panic with the given error
 	 */
-	expect_err(): E {
+	expectErr(): E {
 		return this._error;
 	}
 }
