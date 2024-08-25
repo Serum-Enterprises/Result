@@ -4,9 +4,7 @@
   "description": "A rust-like result type",
   "main": "./build/index.js",
   "types": "./types/index.d.ts",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Serum-Enterprises/Result.git"
@@ -23,7 +21,9 @@
   },
   "homepage": "https://github.com/Serum-Enterprises/Result#readme",
   "dependencies": {
-    "@types/node": "^22.5.0",
-    "@serum-enterprises/panic": "^1.0.0"
+    "@serum-enterprises/panic": "^1.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.5.0"
   }
 }
